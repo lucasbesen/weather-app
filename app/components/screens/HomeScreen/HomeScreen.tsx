@@ -49,7 +49,9 @@ const HomeScreen = () => {
     return (
       <Container>
         <Wrapper flex={1} centralize>
-          <Text fontSize="72px">{error}</Text>
+          <Text fontSize="24px" textAlign="center">
+            {error}
+          </Text>
         </Wrapper>
       </Container>
     );
@@ -59,7 +61,7 @@ const HomeScreen = () => {
     <Container>
       <Wrapper centralize pl="5%" pr="5%">
         <WeatherImage icon={weather.icon} />
-        <Text fontSize="72px" mt="2%">
+        <Text fontSize="72px" mt="2%" isBold>
           {convertKelvinToCelsius(weather.temperature)}°
         </Text>
         <Text
