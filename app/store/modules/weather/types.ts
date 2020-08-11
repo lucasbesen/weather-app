@@ -8,7 +8,7 @@ export interface IWeather {
   kind: string;
   title: string;
   icon: string;
-  temperature: string;
+  temperature: number;
   city: string;
   country: string;
 }
