@@ -1,21 +1,37 @@
-import { StatusBar } from 'expo-status-bar';
+import 'react-native-gesture-handler';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Provider } from 'react-redux';
+import { NavigationContainer } from '@react-navigation/native';
+import {
+  createStackNavigator,
+  StackNavigationOptions,
+} from '@react-navigation/stack';
+
+import { HomeScreen } from 'app/components/screens';
+import ROUTES, { StackParamsList } from 'app/config/routes';
+
+import store from 'app/store';
+
+const Stack = createStackNavigator<StackParamsList>();
+
+const stackOptions: StackNavigationOptions = {
+  title: '',
+  headerTransparent: true,
+  gestureEnabled: true,
+};
+
+const MainStack = () => (
+  <Stack.Navigator initialRouteName={ROUTES.HOME} screenOptions={stackOptions}>
+    <Stack.Screen name={ROUTES.HOME} component={HomeScreen} />
+  </Stack.Navigator>
+);
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Provider store={store}>
+      <NavigationContainer>
+        <MainStack />
+      </NavigationContainer>
+    </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
