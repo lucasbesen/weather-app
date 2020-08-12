@@ -18,7 +18,7 @@ const Container = ({ children }: Props) => {
   const height = useHeaderHeight();
 
   return (
-    <Wrapper flex={1} pt={height} backgroundColor={theme.colors.background}>
+    <Wrapper flex={1} pt={height} backgroundColor={theme.colors.blue}>
       <SafeAreaWrapper>{children}</SafeAreaWrapper>
     </Wrapper>
   );
