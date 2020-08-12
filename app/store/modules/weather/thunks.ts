@@ -28,7 +28,7 @@ export const thunkFetchWeather = (lat: number, lon: number): AppThunk => {
         (error) => dispatch(fetchWeatherFailed(error.message)),
       )
       .then((data) => {
-        if (data.cod) {
+        if (data.cod !== 200) {
           return dispatch(fetchWeatherFailed(data.message));
         }
         // Setup weather
