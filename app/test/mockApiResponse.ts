@@ -1,4 +1,5 @@
 const mockApiResponse = {
+  cod: 200,
   name: 'San Francisco',
   main: {
     temp: 291.15,
