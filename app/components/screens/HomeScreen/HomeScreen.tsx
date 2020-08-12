@@ -6,30 +6,48 @@ import * as Location from 'expo-location';
 import { WeatherSelectors, WeatherThunks } from 'app/store/modules/weather';
 import { convertKelvinToCelsius, getWeatherPhrase } from 'app/utils/helpers';
 
-import { Container, Text, Wrapper } from 'app/components/common';
+import { Button, Container, Text, Wrapper } from 'app/components/common';
 
 import WeatherImage from './components/WeatherImage';
 
+type Coordinates = {
+  latitude: number;
+  longitude: number;
+};
+
 const HomeScreen = () => {
-  const [error, setError] = useState<string>();
+  const [permissionError, setPermissionError] = useState<string>();
+  const [coordinates, setCoordinates] = useState<Coordinates>(
+    {} as Coordinates,
+  );
   const dispatch = useDispatch();
   const weather = useSelector(WeatherSelectors.getWeather);
   const isFetching = useSelector(WeatherSelectors.getIsFetching);
+  const weatherError = useSelector(WeatherSelectors.getError);
+
+  const handleRefresh = () => {
+    dispatch(
+      WeatherThunks.thunkFetchWeather(
+        coordinates.latitude,
+        coordinates.longitude,
+      ),
+    );
+  };
 
   useEffect(() => {
     (async () => {
       const { status } = await Location.requestPermissionsAsync();
       if (status !== 'granted') {
-        setError('Permission to access location was denied');
+        setPermissionError('Permission to access location was denied');
       }
 
-      const location = await Location.getCurrentPositionAsync({});
-      dispatch(
-        WeatherThunks.thunkFetchWeather(
-          location.coords.latitude,
-          location.coords.longitude,
-        ),
-      );
+      const {
+        coords: { latitude, longitude },
+      } = await Location.getCurrentPositionAsync({});
+
+      setCoordinates({ latitude, longitude });
+
+      dispatch(WeatherThunks.thunkFetchWeather(latitude, longitude));
     })();
   }, [dispatch]);
 
@@ -44,13 +62,13 @@ const HomeScreen = () => {
     );
   }
 
-  // Show error if permission to access location was denied
-  if (error) {
+  // Show errors
+  if (permissionError || weatherError) {
     return (
       <Container>
-        <Wrapper flex={1} centralize>
+        <Wrapper flex={1} pl="5%" pr="5%" centralize>
           <Text fontSize="24px" textAlign="center">
-            {error}
+            {permissionError || weatherError}
           </Text>
         </Wrapper>
       </Container>
@@ -71,9 +89,12 @@ const HomeScreen = () => {
         <Text fontSize="24px" mt="2%">
           {weather.title}
         </Text>
-        <Text fontSize="24px" mt="10%" textAlign="center">
+        <Text fontSize="24px" mt="10%" mb="10%" textAlign="center">
           {getWeatherPhrase(weather.kind)}
         </Text>
+        <Button isTextBold onPress={handleRefresh}>
+          Refresh
+        </Button>
       </Wrapper>
     </Container>
   );

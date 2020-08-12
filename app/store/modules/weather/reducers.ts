@@ -7,7 +7,7 @@ import {
 import { WeatherActionTypes, WeatherState, IWeather } from './types';
 
 const initialState: WeatherState = {
-  isFetching: false,
+  isFetching: true,
   error: null,
   weather: {} as IWeather,
 };
