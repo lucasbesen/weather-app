@@ -42,7 +42,7 @@ type Props = React.ComponentProps<typeof InnerText>;
 
 const Text = ({
   isBold = false,
-  color = theme.colors.text.white,
+  color = theme.colors.white,
   ...props
 }: Props) => (
   <InnerText fontWeight={isBold && 'bold'} color={color} {...props} />
