@@ -28,6 +28,9 @@ export const thunkFetchWeather = (lat: number, lon: number): AppThunk => {
         (error) => dispatch(fetchWeatherFailed(error.message)),
       )
       .then((data) => {
+        if (data.cod) {
+          return dispatch(fetchWeatherFailed(data.message));
+        }
         // Setup weather
         const weather = {
           kind: data.weather[0].description,
