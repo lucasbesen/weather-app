@@ -4,12 +4,12 @@ import {
   FETCH_WEATHER_FAILED,
 } from './actions';
 
-import { WeatherActionTypes, WeatherState } from './types';
+import { WeatherActionTypes, WeatherState, IWeather } from './types';
 
 const initialState: WeatherState = {
   isFetching: false,
   error: null,
-  weather: {},
+  weather: {} as IWeather,
 };
 
 const weatherReducer = (

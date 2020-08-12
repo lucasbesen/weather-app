@@ -35,5 +35,5 @@ export type WeatherActionTypes =
 export type WeatherState = {
   isFetching: boolean;
   error: string | null;
-  weather: IWeather | {};
+  weather: IWeather;
 };

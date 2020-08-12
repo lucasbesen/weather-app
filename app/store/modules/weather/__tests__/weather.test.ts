@@ -11,6 +11,8 @@ import {
 } from 'app/store/modules/weather/actions';
 import weatherReducer from 'app/store/modules/weather/reducers';
 
+import { IWeather } from '../types';
+
 const LAT = 37.785834;
 const LON = -122.406417;
 
@@ -28,7 +30,7 @@ describe('Weather tests', () => {
     fetch.mockResponse(JSON.stringify(mockApiResponse));
 
     const store = mockStore({
-      isLoading: false,
+      isFetching: false,
       error: null,
       weather: {},
     });
@@ -50,7 +52,7 @@ describe('Weather tests', () => {
     fetch.mockReject(new Error(errorMessage));
 
     const store = mockStore({
-      isLoading: false,
+      isFetching: false,
       error: null,
       weather: {},
     });
@@ -73,7 +75,7 @@ describe('Weather tests', () => {
     const initialState = {
       isFetching: false,
       error: null,
-      weather: {},
+      weather: {} as IWeather,
     };
 
     const nextState = {
@@ -93,7 +95,7 @@ describe('Weather tests', () => {
     const initialState = {
       isFetching: true,
       error: null,
-      weather: {},
+      weather: {} as IWeather,
     };
 
     const nextState = {
